@@ -2,7 +2,7 @@
 ETL: Extract, Transform, Load
 
 --- Almacén de datos ---
-Proceso:        Control de incidencias (SIEM)
+Proceso:        Almacén de alertas del Control de incidencias (SIEM)
 Grano:          Lo más fino posible
 Dimensiones:    timestamp, sid, msg, clasificación, prioridad, protocolo, origen, destino, puerto
 
