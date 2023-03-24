@@ -63,6 +63,9 @@ with open("src/data/devices.json") as f:
     usuarios.to_sql('usuarios', con, if_exists='replace')
     maquinas.to_sql('maquinas', con, if_exists='replace')  # 'Replace' avoids failure when filling the table
 
+# TEST final table
+# cur.execute("SELECT * FROM usuarios JOIN maquinas ON maquinas.responsable=usuarios.nombre ")
+
 # Commit changes and close
 con.commit()
 con.close()
