@@ -23,7 +23,7 @@ with open("src/data/devices.json") as f:
     data = json.load(f)
     df = pd.DataFrame(data)
 
-    # Extract analisis and puertos, and create a extended dataframe
+    # Extract analisis and puertos, and create an extended dataframe
     analisis = []
     ports = []
 
@@ -40,7 +40,7 @@ with open("src/data/devices.json") as f:
     analisis = pd.concat(analisis, axis=1).transpose()
     ports = pd.concat(ports, ignore_index=True)
 
-    # Extract responsable and create a extended dataframe
+    # Extract responsable and create usuarios dataframe
     usuarios = []
     nombres = []
     for i in range(df.__len__()):
@@ -53,9 +53,9 @@ with open("src/data/devices.json") as f:
     nombres = pd.Series(nombres)
     usuarios = pd.concat(usuarios, axis=1).transpose()
 
-    # Drop 'analisis' and 'responsable' column, and merge dataframes
+    # Drop 'analisis' column, replace 'responsable' with 'nombres' array and merge with 'analisis' dataframe
     maquinas = df.drop(columns='analisis').merge(analisis, on='id')
-    maquinas['responsable']=nombres
+    maquinas['responsable'] = nombres
     print(maquinas, "\n", ports)
 
     # Save ports and final df to database
