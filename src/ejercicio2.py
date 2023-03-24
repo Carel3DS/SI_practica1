@@ -27,15 +27,22 @@ with open("src/data/devices.json") as f:
     data = json.load(f)
     df = pd.DataFrame(data)
 
-    # Extract analisis and create a extended dataframe
+    # Extract analisis and puertos, and create a extended dataframe
     analisis = []
+    ports = []
+
     for i in range(df.__len__()):
         line = df['analisis'][i]
         line['id'] = df['id'][i]
-        if line['puertos_abiertos'] == 'None':
-            line['puertos_abiertos'] = ['None']
-        analisis.append(pd.DataFrame(line))
-    analisis = pd.concat(analisis)
+        port = {'id': line['id'], 'puertos': line.pop('puertos_abiertos')}
+        if port['puertos'] == "None":
+            port['puertos'] = ["None"]
+
+        ports.append(pd.DataFrame(port))
+        analisis.append(pd.Series(line))
+
+    analisis = pd.concat(analisis, axis=1).transpose()
+    ports = pd.concat(ports, ignore_index=True)
 
     # Extract responsable and create a extended dataframe
     responsable = []
@@ -46,13 +53,20 @@ with open("src/data/devices.json") as f:
     responsable = pd.concat(responsable, axis=1).transpose()
 
     # Drop 'analisis' and 'responsable' column, and merge dataframes
-    df = df.drop(columns=['analisis','responsable'])
+    df = df.drop(columns=['analisis', 'responsable'])
     final = df.merge(responsable, on='id').merge(analisis, on='id')
-    print(final)
+    print(final,"\n", ports)
 
-    # Save final df to database
+    # Save ports and final df to database
+    ports.to_sql('puertos', con, if_exists='replace')
     final.to_sql('maquinas', con, if_exists='replace')  # 'Replace' avoids failure when filling the table
 
 # Commit changes and close
 con.commit()
 con.close()
+
+############
+# ANALYSIS #
+############
+
+# Use df, analisis, responsable dataframes to analyze data
