@@ -1,10 +1,16 @@
-# EJERCICIO 2
+# EJERCICIO 2: Simple ETL
 import sqlite3
 
 import pandas as pd
 import json
 
+# Note: Data is already extracted
 
+######################
+# TRANSFORM AND LOAD #
+######################
+
+# Connect to the database
 con = sqlite3.connect('data/practica1.db')
 cur = con.cursor()
 # cur.execute("CREATE TABLE maquinas("
@@ -67,7 +73,8 @@ with open("data/devices.json") as f:
 
 # Extract transform CSV into alertas table
 with open("data/alerts.csv") as f:
-    pd.read_csv(f).to_sql('alertas', con, if_exists='replace')
+    alertas = pd.read_csv(f)
+    alertas.to_sql('alertas', con, if_exists='replace')
 
 # TEST the database
 # cur.execute("SELECT * FROM usuarios JOIN maquinas ON maquinas.responsable=usuarios.nombre ")
@@ -80,7 +87,33 @@ con.close()
 # ANALYSIS #
 ############
 
-# Use df, analisis, responsable dataframes to analyze data
+# Use all the dataframes we created to analyze data
 
+# Prepare Ports dataframe for analysis
+portGroup = ports[ports['puertos']!="None"].groupby('id').count()
+
+# COUNTS
+devices = maquinas.__len__()    # Number of devices (1)
+alerts = alertas.__len__()      # Number of alerts (2)
+
+# MEANS
+meanPorts = portGroup['puertos'].mean()
+meanInsec = analisis['servicios_inseguros'].mean()
+meanVulns = analisis['vulnerabilidades_detectadas'].mean()
+
+# STANDARD DEVIATION
+stdPorts = portGroup['puertos'].std()
+stdInsec = analisis['servicios_inseguros'].std()
+stdVulns = analisis['vulnerabilidades_detectadas'].std()
+
+# MINIMUMS
+minVulns = analisis['vulnerabilidades_detectadas'].min()
+minPorts = portGroup.min()
+
+# MAXIMUMS
+maxVulns = analisis['vulnerabilidades_detectadas'].max()
+maxPorts = portGroup.max()
+
+print()
 
 
