@@ -53,7 +53,6 @@ with open("src/data/devices.json") as f:
     nombres = []
     for i in range(df.__len__()):
         line = df['responsable'][i]
-        line['id'] = df['id'][i]
         nombres.append(line['nombre'])  # Save names to craft maquinas dataframe
         if line['nombre'] not in [s['nombre'] for s in usuarios]:
             usuarios.append(pd.Series(line))  # Save unique usuarios
@@ -95,6 +94,10 @@ portGroup = ports[ports['puertos'] != "None"].groupby('id').count()
 # COUNTS
 devices = maquinas.__len__()  # Number of devices (1)
 alerts = alertas.__len__()  # Number of alerts (2)
+numNones = maquinas\
+    .merge(usuarios, right_on="nombre", left_on="responsable")\
+    .merge(analisis, on="id").isin(["None"]).sum().sum()\
+    +ports.isin(["None"]).sum().sum()
 
 # MEANS
 meanPorts = portGroup['puertos'].mean()
@@ -115,17 +118,23 @@ maxVulns = analisis['vulnerabilidades_detectadas'].max()
 maxPorts = portGroup['puertos'].max()
 
 print(
+    "=== STATISTICS ===",
     f"devices:\t{devices}",
     f"alerts:\t\t{alerts}",
-    f"meanPorts:\t{meanPorts}",
-    f"meanInsec:\t{meanInsec}",
-    f"meanVulns:\t{meanVulns}",
-    f"stdPorts:\t{stdPorts}",
-    f"stdInsec:\t{stdInsec}",
-    f"stdVulns:\t{stdVulns}",
+    f"numNones:\t{numNones}\n",
+    "=== INSECURE SERVICES ===",
+    f"meanInsec:\t{meanInsec:.2f}",
+    f"stdInsec:\t{stdInsec:.2f}\n",
+    "=== VULNERABILITIES ===",
+    f"meanVulns:\t{meanVulns:.2f}",
+    f"stdVulns:\t{stdVulns:.2f}",
     f"minVulns:\t{minVulns}",
+    f"maxVulns:\t{maxVulns}\n",
+    "=== OPEN PORTS ===",
+    f"meanPorts:\t{meanPorts:.2f}",
+    f"stdPorts:\t{stdPorts:.2f}",
     f"minPorts:\t{minPorts}",
-    f"maxVulns:\t{maxVulns}",
     f"maxPorts:\t{maxPorts}",
     sep="\n"
 )
+

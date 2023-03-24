@@ -1,6 +1,8 @@
 === DISEÑO DEL ETL ===
 ETL: Extract, Transform, Load
 
+Tablas identificadas: usuarios, maquinas, analisis, puertos, alertas
+
 --- Almacén de datos ---
 Proceso:        Almacén de alertas del Control de incidencias (SIEM)
 Grano:          Lo más fino posible
