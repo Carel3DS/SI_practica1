@@ -2,6 +2,7 @@
 ######################################Para seleccionar las IP de origen más problemáticas y representarlas:
 import sqlite3
 import matplotlib.pyplot as plt
+import pandas as pd
 
 con = sqlite3.connect('pruebapractica1csv.db')
 cur = con.cursor()
