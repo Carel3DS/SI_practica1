@@ -1,4 +1,5 @@
 # EJERCICIO 4
+#Damos por hecho que los datos del .csv están cargados en la BBDD desde el ejercicio anterior, por lo que no se muestra cómo hacerlo
 ######################################Para seleccionar las IP de origen más problemáticas y representarlas:
 import sqlite3
 import matplotlib.pyplot as plt
