@@ -19,7 +19,7 @@ conn.commit()
 conn.close()
 
 #Para agrupar por prioridad de alerta y fecha
-conn = sqlite3.connect('pruebapractica1csv.db') 
+conn = sqlite3.connect('practica1csv.db') 
  
 cursor = conn.cursor() 
  
