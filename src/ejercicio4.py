@@ -4,7 +4,7 @@ import sqlite3
 import matplotlib.pyplot as plt
 import pandas as pd
 
-con = sqlite3.connect('pruebapractica1csv.db')
+con = sqlite3.connect('practica1csv.db')
 cur = con.cursor()
 cur.execute("SELECT origin, COUNT(*) FROM alertas WHERE priority = 1 GROUP BY origin ORDER BY COUNT(*) DESC LIMIT 10")
 
@@ -24,7 +24,7 @@ plt.show()
 
 
 ###############################Número de alertas en el tiempo:
-conn = sqlite3.connect('pruebapractica1csv.db')
+conn = sqlite3.connect('practica1csv.db')
 
 query = '''
         SELECT date(timestamp) as date, count(*) as num_alerts
@@ -50,7 +50,7 @@ plt.show()
 
 
 ###################Número de alertas por categoría:
-conn = sqlite3.connect('pruebapractica1csv.db')
+conn = sqlite3.connect('practica1csv.db')
 
 query = "SELECT clasification, COUNT(*) as num_alertas FROM alertas GROUP BY clasification"
 
@@ -65,7 +65,7 @@ plt.show()
 
 
 ########################Dispositios más vulnerables:
-conn = sqlite3.connect('pruebapractica1csv.db')
+conn = sqlite3.connect('practica1csv.db')
 cursor = conn.cursor()
 
 query = """
@@ -93,7 +93,7 @@ plt.show()
 
 
 #####################################Media de puertos abiertos:
-conn = sqlite3.connect('pruebapractica1csv.db')
+conn = sqlite3.connect('practica1csv.db')
 
 query = '''
 SELECT clasification, AVG(port) as avg_port, COUNT(*) as count
