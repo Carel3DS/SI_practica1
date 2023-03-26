@@ -88,3 +88,46 @@ plt.title(f"Top {num_devices} dispositivos más vulnerables")
 plt.xlabel("Dispositivo")
 plt.ylabel("Número de alertas")
 plt.show()
+
+
+
+#####################################Media de puertos abiertos:
+conn = sqlite3.connect('pruebapractica1csv.db')
+
+query = '''
+SELECT clasification, AVG(port) as avg_port, COUNT(*) as count
+FROM alertas
+WHERE clasification <> 'vulnerabilidad'
+GROUP BY clasification
+'''
+
+cursor = conn.cursor()
+cursor.execute(query)
+results = cursor.fetchall()
+
+clasifications = []
+avg_ports = []
+total_services = []
+insecure_services = []
+
+for row in results:
+    clasification, avg_port, count = row
+    clasifications.append(clasification)
+    avg_ports.append(avg_port)
+    total_services.append(count)
+
+    if clasification.lower().startswith('inseguro'):
+        insecure_services.append(count)
+    else:
+        insecure_services.append(0)
+
+fig, ax = plt.subplots()
+ax.bar(clasifications, avg_ports, label='Media de puertos abiertos')
+ax.plot(clasifications, total_services, label='Total de servicios detectados', color='red')
+ax.plot(clasifications, insecure_services, label='Servicios inseguros', color='orange')
+ax.legend()
+ax.set_xlabel('Clasificación')
+ax.set_ylabel('Puertos')
+ax.set_title('Media de puertos abiertos por clasificación de vulnerabilidad')
+plt.xticks(rotation=90)
+plt.show()
