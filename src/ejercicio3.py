@@ -216,7 +216,8 @@ print("El valor máximo de alertas de prioridad 2 ha sido de", valorMax2, ", en 
 print("El valor mínimo de alertas de prioridad 3 ha sido de", valorMin3, ", en el mes de", mesMin3)
 print("El valor máximo de alertas de prioridad 3 ha sido de", valorMax3, ", en el mes de", mesMax3)
 
-print("El valor mínimo de alertas totales ha sido de", valorMinTotal,", en el mes de", mesMinTotal)
-print("El valor máximo de alertas totales ha sido de", valorMaxTotal,", en el mes de", mesMaxTotal)
+print("El valor mínimo de alertas totales ha sido de", valorMinTotal, ", en el mes de", mesMinTotal)
+print("El valor máximo de alertas totales ha sido de", valorMaxTotal, ", en el mes de", mesMaxTotal)
+
 
 con.close()
