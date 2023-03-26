@@ -10,11 +10,9 @@ cur.execute("SELECT origin, COUNT(*) FROM alertas WHERE priority = 1 GROUP BY or
 results = cur.fetchall()
 con.close()
 
-# Separación de los datos en dos listas para el gráfico de barras
 ips = [result[0] for result in results]
 counts = [result[1] for result in results]
 
-# Creación del gráfico de barras
 plt.bar(ips, counts)
 plt.xlabel('IPs de origen')
 plt.ylabel('Número de incidencias')
@@ -27,7 +25,6 @@ plt.show()
 ###############################Número de alertas en el tiempo:
 conn = sqlite3.connect('pruebapractica1csv.db')
 
-# Consulta SQL para contar el número de alertas por día
 query = '''
         SELECT date(timestamp) as date, count(*) as num_alerts
         FROM alertas
@@ -35,15 +32,12 @@ query = '''
         ORDER BY date(timestamp)
         '''
 
-# Ejecutar la consulta y guardar los resultados en un DataFrame
 df = pd.read_sql_query(query, conn)
 
 conn.close()
 
-# Convertir la columna de fecha en un objeto datetime
 df['date'] = pd.to_datetime(df['date'])
 
-# Configurar el gráfico
 plt.figure(figsize=(12, 6))
 plt.plot(df['date'], df['num_alerts'])
 plt.title('Número de alertas por día')
@@ -51,6 +45,7 @@ plt.xlabel('Fecha')
 plt.ylabel('Número de alertas')
 
 plt.show()
+
 
 
 ###################Número de alertas por categoría:
@@ -64,4 +59,32 @@ df.plot(kind='bar', x='clasification', y='num_alertas')
 plt.xlabel('Categoría de alerta')
 plt.ylabel('Número de alertas')
 plt.title('Número de alertas por categoría')
+plt.show()
+
+
+
+########################Dispositios más vulnerables:
+conn = sqlite3.connect('pruebapractica1csv.db')
+cursor = conn.cursor()
+
+query = """
+SELECT origin, COUNT(*) AS total
+FROM alertas
+GROUP BY origin
+ORDER BY total DESC
+"""
+
+cursor.execute(query)
+results = cursor.fetchall()
+
+conn.close()
+
+num_devices = 10
+x_labels = [result[0] for result in results[:num_devices]]
+y_values = [result[1] for result in results[:num_devices]]
+
+plt.bar(x_labels, y_values)
+plt.title(f"Top {num_devices} dispositivos más vulnerables")
+plt.xlabel("Dispositivo")
+plt.ylabel("Número de alertas")
 plt.show()
