@@ -19,7 +19,7 @@ conn.commit()
 conn.close()
 
 #Para agrupar por prioridad de alerta y fecha
-con = sqlite3.connect("database.db")
+con = sqlite3.connect("practica1csv.db")
 
 query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '07' AND PRIORITY = 1")
 cols = [column[0] for column in query.description]
@@ -112,6 +112,111 @@ print("La varianza mensual de todas las alertas es de", varianzaTot, "alertas al
 print("\n")
 
 #Valores Máximos y mínimos
+valorMinJulio = 0
+valorMaxJulio = 0
+valorMinAgosto = 0
+valorMaxAgosto = 0
 
+if dAlertsJul1["sid"].count() < (dAlertsJul2["sid"].count()) & (dAlertsJul1["sid"].count() < (dAlertsJul3["sid"].count())):
+    valorMinJulio = dAlertsJul1["sid"].count()
+elif dAlertsJul2["sid"].count() < dAlertsJul3["sid"].count():
+    valorMinJulio = dAlertsJul2["sid"].count()
+else:
+    valorMinJulio = dAlertsJul3["sid"].count()
+
+if dAlertsJul1["sid"].count() > (dAlertsJul2["sid"].count()) & (dAlertsJul1["sid"].count() > (dAlertsJul3["sid"].count())):
+    valorMaxJulio = dAlertsJul1["sid"].count()
+elif dAlertsJul2["sid"].count() > dAlertsJul3["sid"].count():
+    valorMaxJulio = dAlertsJul2["sid"].count()
+else:
+    valorMaxJulio = dAlertsJul3["sid"].count()
+
+if dAlertsAgo1["sid"].count() < (dAlertsAgo2["sid"].count()) & (dAlertsAgo1["sid"].count() < (dAlertsAgo3["sid"].count())):
+    valorMinAgosto = dAlertsAgo1["sid"].count()
+elif dAlertsAgo2["sid"].count() < dAlertsAgo3["sid"].count():
+    valorMinAgosto = dAlertsAgo2["sid"].count()
+else:
+    valorMinAgosto = dAlertsAgo3["sid"].count()
+
+if dAlertsAgo1["sid"].count() > (dAlertsAgo2["sid"].count()) & (dAlertsAgo1["sid"].count() > (dAlertsAgo3["sid"].count())):
+    valorMaxAgosto = dAlertsAgo1["sid"].count()
+elif dAlertsAgo2["sid"].count() > dAlertsAgo3["sid"].count():
+    valorMaxAgosto = dAlertsAgo2["sid"].count()
+else:
+    valorMaxAgosto = dAlertsAgo3["sid"].count()
+
+valorMin1 = 0
+valorMax1 = 0
+valorMin2 = 0
+valorMax2 = 0
+valorMin3 = 0
+valorMax3 = 0
+
+mesMin1 = ""
+mesMax1 = ""
+mesMin2 = ""
+mesMax2 = ""
+mesMin3 = ""
+mesMax3 = ""
+
+if dAlertsJul1["sid"].count() < dAlertsAgo1["sid"].count():
+    valorMin1 = dAlertsJul1["sid"].count()
+    valorMax1 = dAlertsAgo1["sid"].count()
+    mesMin1 = "julio"
+    mesMax1 = "agosto"
+else:
+    valorMin1 = dAlertsAgo1["sid"].count()
+    valorMax1 = dAlertsJul1["sid"].count()
+    mesMin1 = "agosto"
+    mesMax1 = "julio"
+
+if dAlertsJul2["sid"].count() < dAlertsAgo2["sid"].count():
+    valorMin2 = dAlertsJul2["sid"].count()
+    valorMax2 = dAlertsAgo2["sid"].count()
+    mesMin2 = "julio"
+    mesMax2 = "agosto"
+else:
+    valorMin2 = dAlertsAgo2["sid"].count()
+    valorMax2 = dAlertsJul2["sid"].count()
+    mesMin2 = "agosto"
+    mesMax2 = "julio"
+
+if dAlertsJul3["sid"].count() < dAlertsAgo3["sid"].count():
+    valorMin3 = dAlertsJul3["sid"].count()
+    valorMax3 = dAlertsAgo3["sid"].count()
+    mesMin3 = "julio"
+    mesMax3 = "agosto"
+else:
+    valorMin3 = dAlertsAgo3["sid"].count()
+    valorMax3 = dAlertsJul3["sid"].count()
+    mesMin3 = "agosto"
+    mesMax3 = "julio"
+
+valorMinTotal = 0
+valorMaxTotal = 0
+
+mesMinTotal = ""
+mesMaxTotal = ""
+
+if dAlertsJul1["sid"].count()+dAlertsJul2["sid"].count()+dAlertsJul3["sid"].count() < dAlertsAgo1["sid"].count()+dAlertsAgo2["sid"].count()+dAlertsAgo3["sid"].count():
+    valorMinTotal = dAlertsJul1["sid"].count()+dAlertsJul2["sid"].count()+dAlertsJul3["sid"].count()
+    valorMaxTotal = dAlertsAgo1["sid"].count() + dAlertsAgo2["sid"].count() + dAlertsAgo3["sid"].count()
+    mesMinTotal = "julio"
+    mesMaxTotal = "agosto"
+else:
+    valorMaxTotal = dAlertsJul1["sid"].count() + dAlertsJul2["sid"].count() + dAlertsJul3["sid"].count()
+    valorMinTotal = dAlertsAgo1["sid"].count() + dAlertsAgo2["sid"].count() + dAlertsAgo3["sid"].count()
+    mesMinTotal = "agosto"
+    mesMaxTotal = "julio"
+
+print("El valor mínimo de alertas de prioridad 1 ha sido de", valorMin1, ", en el mes de", mesMin1)
+print("El valor máximo de alertas de prioridad 1 ha sido de", valorMax1, ", en el mes de", mesMax1)
+print("El valor mínimo de alertas de prioridad 2 ha sido de", valorMin2, ", en el mes de", mesMin2)
+print("El valor máximo de alertas de prioridad 2 ha sido de", valorMax2, ", en el mes de", mesMax2)
+print("El valor mínimo de alertas de prioridad 3 ha sido de", valorMin3, ", en el mes de", mesMin3)
+print("El valor máximo de alertas de prioridad 3 ha sido de", valorMax3, ", en el mes de", mesMax3)
+
+print("El valor mínimo de alertas totales ha sido de", valorMinTotal,", en el mes de", mesMinTotal)
+print("El valor máximo de alertas totales ha sido de", valorMaxTotal,", en el mes de", mesMaxTotal)
 
 con.close()
