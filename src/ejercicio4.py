@@ -98,7 +98,6 @@ conn = sqlite3.connect('practica1csv.db')
 query = '''
 SELECT clasification, AVG(port) as avg_port, COUNT(*) as count
 FROM alertas
-WHERE clasification <> 'vulnerabilidad'
 GROUP BY clasification
 '''
 
@@ -116,11 +115,7 @@ for row in results:
     clasifications.append(clasification)
     avg_ports.append(avg_port)
     total_services.append(count)
-
-    if clasification.lower().startswith('inseguro'):
-        insecure_services.append(count)
-    else:
-        insecure_services.append(0)
+    insecure_services.append(0)
 
 fig, ax = plt.subplots()
 ax.bar(clasifications, avg_ports, label='Media de puertos abiertos')
