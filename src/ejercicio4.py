@@ -1,5 +1,5 @@
 # EJERCICIO 4
-#Para seleccionar las IP de origen más problemáticas y representarlas:
+######################################Para seleccionar las IP de origen más problemáticas y representarlas:
 import sqlite3
 import matplotlib.pyplot as plt
 
@@ -24,7 +24,7 @@ plt.show()
 
 
 
-#Número de alertas en el tiempo:
+###############################Número de alertas en el tiempo:
 conn = sqlite3.connect('pruebapractica1csv.db')
 
 # Consulta SQL para contar el número de alertas por día
@@ -50,4 +50,18 @@ plt.title('Número de alertas por día')
 plt.xlabel('Fecha')
 plt.ylabel('Número de alertas')
 
+plt.show()
+
+
+###################Número de alertas por categoría:
+conn = sqlite3.connect('pruebapractica1csv.db')
+
+query = "SELECT clasification, COUNT(*) as num_alertas FROM alertas GROUP BY clasification"
+
+df = pd.read_sql_query(query, conn)
+
+df.plot(kind='bar', x='clasification', y='num_alertas')
+plt.xlabel('Categoría de alerta')
+plt.ylabel('Número de alertas')
+plt.title('Número de alertas por categoría')
 plt.show()
