@@ -19,7 +19,7 @@ conn.commit()
 conn.close()
 
 #Para agrupar por prioridad de alerta y fecha
-con = sqlite3.connect("database.db")
+con = sqlite3.connect("practica1csv.db")
 
 query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '07' AND PRIORITY = 1")
 data_col = []
