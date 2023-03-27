@@ -19,32 +19,43 @@ conn.commit()
 conn.close()
 
 #Para agrupar por prioridad de alerta y fecha
-con = sqlite3.connect("practica1csv.db")
+con = sqlite3.connect("database.db")
 
 query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '07' AND PRIORITY = 1")
-cols = [column[0] for column in query.description]
-dAlertsJul1 = pd.DataFrame.from_records(data=query.fetchall(), columns=cols)
+data_col = []
+for column in query.description:
+	data_col.append(column[0])
+dAlertsJul1 = pd.DataFrame.from_records(data=query.fetchall(), columns=data_col)
 
-query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '07' AND PRIORITY = 2")
-cols = [column[0] for column in query.description]
-dAlertsJul2 = pd.DataFrame.from_records(data=query.fetchall(), columns=cols)
+query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp ) = '07' AND PRIORITY = 2")
+data_col = []
+for column in query.description:
+	data_col.append(column[0])
+dAlertsJul2 = pd.DataFrame.from_records(data=query.fetchall(), columns=data_col)
 
-query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '07' AND PRIORITY = 3")
-cols = [column[0] for column in query.description]
-dAlertsJul3 = pd.DataFrame.from_records(data=query.fetchall(), columns=cols)
+query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp ) = '07' AND PRIORITY = 3")
+data_col = []
+for column in query.description:
+	data_col.append(column[0])
+dAlertsJul3 = pd.DataFrame.from_records(data=query.fetchall(), columns=data_col)
 
-query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '08' AND PRIORITY = 1")
-cols = [column[0] for column in query.description]
-dAlertsAgo1 = pd.DataFrame.from_records(data=query.fetchall(), columns=cols)
+query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp ) = '08' AND PRIORITY = 1")
+data_col = []
+for column in query.description:
+	data_col.append(column[0])
+dAlertsAgo1 = pd.DataFrame.from_records(data=query.fetchall(), columns=data_col)
 
-query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '08' AND PRIORITY = 2")
-cols = [column[0] for column in query.description]
-dAlertsAgo2 = pd.DataFrame.from_records(data=query.fetchall(), columns=cols)
+query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp ) = '08' AND PRIORITY = 2")
+data_col = []
+for column in query.description:
+	data_col.append(column[0])
+dAlertsAgo2 = pd.DataFrame.from_records(data=query.fetchall(), columns=data_col)
 
-query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp) = '08' AND PRIORITY = 3")
-cols = [column[0] for column in query.description]
-dAlertsAgo3 = pd.DataFrame.from_records(data=query.fetchall(), columns=cols)
-
+query = con.execute("SELECT * FROM alertas WHERE STRFTIME('%m',timestamp ) = '08' AND PRIORITY = 3")
+data_col = []
+for column in query.description:
+	data_col.append(column[0])
+dAlertsAgo3 = pd.DataFrame.from_records(data=query.fetchall(), columns=data_col)
 
 cursor = con.cursor()
 
